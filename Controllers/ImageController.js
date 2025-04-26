@@ -22,9 +22,10 @@ const UploadAnImage = async (req, res) => {
     if (!req.file) return res.status(400).json({ message: "No file uploaded" });
 
     const cldRes = await handleCloudinaryUpload(req.file);
+
     return res.status(201).json({
       message: "Image uploaded successfully",
-      url: cldRes.url,
+      url: cldRes.secure_url,
     });
   } catch (err) {
     console.error(err);
@@ -34,6 +35,7 @@ const UploadAnImage = async (req, res) => {
     });
   }
 };
+
 const removeImage = (imageId) => {
   return new Promise((resolve, reject) => {
     cloudinary.uploader.destroy(imageId, (error, result) => {
